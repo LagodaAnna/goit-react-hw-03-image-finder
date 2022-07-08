@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.ul`
   display: grid;
   max-width: calc(100vw - 48px);
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   grid-gap: 16px;
   margin-top: 0;
   margin-bottom: 0;
@@ -21,7 +21,7 @@ export const ImageContainer = styled.li`
 
 export const Image = styled.img`
   width: 100%;
-  height: 190px;
+  height: 260px;
   object-fit: cover;
   transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
 
