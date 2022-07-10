@@ -6,6 +6,7 @@ import Button from './Button';
 import Modal from './Modal';
 import api from '../api';
 import Box from './Box';
+import { mapper } from 'services/mapper';
 
 class App extends Component {
   state = {
@@ -13,7 +14,6 @@ class App extends Component {
     pictures: [],
     query: '',
     isLoading: false,
-    showModal: false,
     largeImageURL: null,
     error: null,
   };
@@ -33,8 +33,12 @@ class App extends Component {
 
       try {
         const { hits } = await api.searchPictures(currentQuery, currentPage);
+        const upDatePictures = mapper(hits);
+
         this.setState(prev => ({
-          pictures: prev.pictures ? [...prev.pictures, ...hits] : hits,
+          pictures: prev.pictures
+            ? [...prev.pictures, ...upDatePictures]
+            : upDatePictures,
         }));
       } catch (error) {
         this.setState({ error });
@@ -67,11 +71,11 @@ class App extends Component {
   };
 
   handlerOpenModal = largeImageURL => {
-    this.setState({ largeImageURL, showModal: true });
+    this.setState({ largeImageURL });
   };
 
   handlerCloseModal = () => {
-    this.setState({ showModal: false });
+    this.setState({ largeImageURL: null });
   };
 
   handleLoadButton = () => {
@@ -79,7 +83,7 @@ class App extends Component {
   };
 
   render() {
-    const { pictures, isLoading, showModal, largeImageURL, error } = this.state;
+    const { pictures, isLoading, largeImageURL, error } = this.state;
     return (
       <>
         <Box
@@ -102,7 +106,7 @@ class App extends Component {
 
           {pictures.length !== 0 && <Button onClick={this.handleLoadButton} />}
         </Box>
-        {showModal && (
+        {largeImageURL && (
           <Modal onClose={this.handlerCloseModal}>
             <img src={largeImageURL} alt="Big version" />
           </Modal>
