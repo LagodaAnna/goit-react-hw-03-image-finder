@@ -55,18 +55,16 @@ class App extends Component {
     }
   }
 
-  handlerSubmit = evt => {
-    evt.preventDefault();
-    const query = evt.target.elements.name.value;
+  handlerSubmit = currentQuery => {
     const prevQuery = this.state.query;
-    if (prevQuery === query || query.trim() === '') {
+    if (prevQuery === currentQuery || currentQuery.trim() === '') {
       return;
     }
 
     this.setState({
       page: 1,
       pictures: [],
-      query,
+      query: currentQuery,
     });
   };
 
